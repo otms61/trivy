@@ -36,6 +36,7 @@ const (
 	Ansible        = "ansible"
 	Helm           = "helm"
 	Rbac           = "rbac"
+	Cloud          = "cloud"
 
 	// Language-specific file names
 	NuGetPkgsLock   = "packages.lock.json"

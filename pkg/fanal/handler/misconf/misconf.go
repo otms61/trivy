@@ -39,7 +39,7 @@ func init() {
 const version = 1
 
 type misconfPostHandler struct {
-	scanners map[string]scanners.Scanner
+	scanners map[string]scanners.FSScanner
 }
 
 // for a given set of paths, find the most specific filesystem path that contains all the descendants
@@ -177,7 +177,7 @@ func newMisconfPostHandler(artifactOpt artifact.Option) (handler.PostHandler, er
 	}
 
 	return misconfPostHandler{
-		scanners: map[string]scanners.Scanner{
+		scanners: map[string]scanners.FSScanner{
 			types.Terraform:      tfscanner.New(opts...),
 			types.CloudFormation: cfscanner.New(opts...),
 			types.Dockerfile:     dfscanner.NewScanner(opts...),
