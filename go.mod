@@ -17,6 +17,8 @@ require (
 	github.com/aquasecurity/testdocker v0.0.0-20210911155206-e1e85f5a1516
 	github.com/aquasecurity/trivy-db v0.0.0-20220627104749-930461748b63
 	github.com/aquasecurity/trivy-kubernetes v0.3.1-0.20220623094029-353ad52f879b
+	github.com/aws/aws-sdk-go-v2/config v1.15.13
+	github.com/aws/aws-sdk-go-v2/service/sts v1.16.9
 	github.com/caarlos0/env/v6 v6.9.3
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cheggaaa/pb/v3 v3.0.8
@@ -68,13 +70,14 @@ require (
 require (
 	github.com/aws/aws-sdk-go-v2 v1.16.7 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.4.2 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.15.13 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.8 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.8 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.14 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.8 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.15 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/apigateway v1.15.10 // indirect
+	github.com/aws/aws-sdk-go-v2/service/apigatewayv2 v1.12.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.47.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/iam v1.18.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 // indirect
@@ -83,9 +86,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.13.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.26.11 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sns v1.17.9 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.18.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.11.11 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.16.9 // indirect
 	github.com/aws/smithy-go v1.12.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
@@ -127,7 +129,7 @@ require (
 	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
 	github.com/apparentlymart/go-cidr v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
-	github.com/aquasecurity/defsec v0.68.7-0.20220707143900-fc9d10271616
+	github.com/aquasecurity/defsec v0.68.7-0.20220712155805-6ba1fed31f62
 	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535 // indirect
 	github.com/aws/aws-sdk-go v1.44.48
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -289,7 +291,7 @@ require (
 	golang.org/x/sys v0.0.0-20220624220833-87e55d714810 // indirect
 	golang.org/x/term v0.0.0-20220526004731-065cf7ba2467
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/time v0.0.0-20220210224613-90d013bbcef8 // indirect
+	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	google.golang.org/api v0.81.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
