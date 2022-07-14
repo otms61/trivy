@@ -78,12 +78,19 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/apigateway v1.15.10 // indirect
 	github.com/aws/aws-sdk-go-v2/service/apigatewayv2 v1.12.8 // indirect
+	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.47.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ecr v1.17.8 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.18.11 // indirect
+	github.com/aws/aws-sdk-go-v2/service/eks v1.21.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/iam v1.18.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.1.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.13.6 // indirect
+	github.com/aws/aws-sdk-go-v2/service/lambda v1.23.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/rds v1.21.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.26.11 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sns v1.17.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.0 // indirect
@@ -129,7 +136,7 @@ require (
 	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
 	github.com/apparentlymart/go-cidr v1.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
-	github.com/aquasecurity/defsec v0.68.7-0.20220712155805-6ba1fed31f62
+	github.com/aquasecurity/defsec v0.68.7-0.20220714103210-5c6fe03d1538
 	github.com/asaskevich/govalidator v0.0.0-20200428143746-21a406dcc535 // indirect
 	github.com/aws/aws-sdk-go v1.44.48
 	github.com/beorn7/perks v1.0.1 // indirect
