@@ -95,14 +95,21 @@ func (c *Client) GetEntry(ctx context.Context, entryID EntryID) (Entry, error) {
 		return Entry{}, xerrors.Errorf("failed to get log entry by UUID: %w", err)
 	}
 
-	entry, found := resp.Payload[entryID.UUID]
-	if !found {
-		return Entry{}, ErrNoAttestation
-	}
+	for id, respEntry := range resp.Payload {
+		respEntryID, err := NewEntryID(id)
+		if err != nil {
+			return Entry{}, xerrors.Errorf("failed to parse response entryID: %w", err)
+		}
 
-	if entry.Attestation == nil {
-		return Entry{}, ErrNoAttestation
-	}
+		if respEntryID.UUID != entryID.UUID {
+			continue
+		}
 
-	return Entry{Statement: entry.Attestation.Data}, nil
+		if respEntry.Attestation == nil {
+			continue
+		}
+
+		return Entry{Statement: respEntry.Attestation.Data}, nil
+	}
+	return Entry{}, ErrNoAttestation
 }
