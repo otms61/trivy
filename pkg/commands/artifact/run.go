@@ -1,11 +1,20 @@
 package artifact
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"os"
 
+	"github.com/aquasecurity/trivy/pkg/report/cyclonedx"
+	"github.com/google/go-containerregistry/pkg/authn"
+	"github.com/google/go-containerregistry/pkg/name"
+	v1 "github.com/google/go-containerregistry/pkg/v1"
+	"github.com/google/go-containerregistry/pkg/v1/empty"
+	"github.com/google/go-containerregistry/pkg/v1/mutate"
+	"github.com/google/go-containerregistry/pkg/v1/remote"
+	"github.com/google/go-containerregistry/pkg/v1/static"
 	"github.com/hashicorp/go-multierror"
 	"github.com/spf13/viper"
 	"golang.org/x/exp/slices"
@@ -30,6 +39,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/scanner"
 	"github.com/aquasecurity/trivy/pkg/types"
 	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
+	ttypes "github.com/google/go-containerregistry/pkg/v1/types"
 )
 
 // TargetKind represents what kind of artifact Trivy scans
@@ -426,6 +436,10 @@ func Run(ctx context.Context, opts flag.Options, targetKind TargetKind) (err err
 		if report, err = r.ScanImage(ctx, opts); err != nil {
 			return xerrors.Errorf("image scan error: %w", err)
 		}
+		err = saveReferrers(ctx, report, opts)
+		if err != nil {
+			return err
+		}
 	case TargetFilesystem:
 		if report, err = r.ScanFilesystem(ctx, opts); err != nil {
 			return xerrors.Errorf("filesystem scan error: %w", err)
@@ -459,6 +473,60 @@ func Run(ctx context.Context, opts flag.Options, targetKind TargetKind) (err err
 
 	exitOnEOL(opts, report.Metadata)
 	Exit(opts, report.Results.Failed())
+
+	return nil
+}
+
+func saveReferrers(ctx context.Context, report types.Report, opts flag.Options) error {
+	var b bytes.Buffer
+	if err := cyclonedx.NewWriter(&b, opts.AppVersion).Write(report); err != nil {
+		return xerrors.Errorf("write cyclonedx error: %w", err)
+	}
+
+	targetRef, err := name.ParseReference(opts.ScanOptions.Target)
+	if err != nil {
+		return err
+	}
+
+	targetDesc, err := remote.Head(targetRef)
+	if err != nil {
+		return err
+	}
+
+	img, err := mutate.Append(empty.Image, mutate.Addendum{
+		Layer: static.NewLayer(b.Bytes(), ttypes.OCIUncompressedLayer),
+	})
+	if err != nil {
+		return err
+	}
+
+	img = mutate.ConfigMediaType(img, "application/vnd.cyclonedx+json")
+	img = mutate.MediaType(img, ttypes.OCIManifestSchema1)
+	img = mutate.Annotations(img, map[string]string{
+		"org.opencontainers.artifact.description": "CycloneDX JSON SBOM",
+	}).(v1.Image)
+	img = mutate.Subject(img, *targetDesc).(v1.Image)
+
+	tag, err := name.NewTag(opts.ScanOptions.Target)
+	if err != nil {
+		return err
+	}
+
+	digest, err := img.Digest()
+	if err != nil {
+		return err
+	}
+
+	tag2, err := name.NewDigest(fmt.Sprintf("%s/%s@%s", tag.RegistryStr(), tag.RepositoryStr(), digest.String()))
+	if err != nil {
+		return err
+	}
+
+	err = remote.Write(tag2, img, remote.WithContext(ctx), remote.WithAuthFromKeychain(authn.DefaultKeychain))
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
